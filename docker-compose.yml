@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  api:
+    build: .
+    ports:
+      - '5000:5000'
+    env_file:
+      - .docker.env
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    restart: always
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: nightdrink
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
